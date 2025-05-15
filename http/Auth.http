@@ -1,0 +1,20 @@
+### GET request to example server
+GET http://localhost:3010
+
+###
+GET http://localhost:3010/user
+
+
+###
+POST http://localhost:3010/user/signUp
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "password": "Test1234!",
+  "role": "user"
+}
+
+
+###
+POST http://localhost:3010/user/signIn

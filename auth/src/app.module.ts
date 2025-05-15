@@ -5,10 +5,14 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import {DatabaseModule} from "./mongo/mongo.module";
 import {UserModule} from "./user/user.module";
+import { JwtModule } from '@nestjs/jwt';
+
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
@@ -16,7 +20,19 @@ import {UserModule} from "./user/user.module";
       }),
       inject: [ConfigService],
     }),
-
+    JwtModule.registerAsync({
+      global: true,
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => {
+        const secret = configService.get<string>('JWT_SECRET');
+        console.log('JWT_SECRET:', secret); // 디버깅용
+        return {
+          secret: secret,
+          signOptions: { expiresIn: '1h' },
+        };
+      },
+    }),
     DatabaseModule,
     UserModule
   ],

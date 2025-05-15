@@ -1,0 +1,12 @@
+auth/node_modules
+auth/.gitignore
+auth/.prettierrc
+npm-debug.log
+dist
+coverage
+.git
+*.md
+.gitignore
+.prettierrc
+.eslintrc.js
+test

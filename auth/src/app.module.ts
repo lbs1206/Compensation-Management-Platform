@@ -5,6 +5,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import {DatabaseModule} from "./mongo/mongo.module";
 import {UserModule} from "./user/user.module";
+import { JwtModule } from '@nestjs/jwt';
+
 
 @Module({
   imports: [
@@ -16,7 +18,15 @@ import {UserModule} from "./user/user.module";
       }),
       inject: [ConfigService],
     }),
-
+    JwtModule.registerAsync({
+      global: true,
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        secret: configService.get<string>('JWT_SECRET'),
+        signOptions: { expiresIn: '1h' },
+      }),
+      inject: [ConfigService],
+    }),
     DatabaseModule,
     UserModule
   ],

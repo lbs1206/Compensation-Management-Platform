@@ -22,7 +22,7 @@ export class User extends Document {
     userKey: string;
 
 
-    @Prop({ required: true })
+    @Prop({ required: true, unique: true })
     username: string;
 
     @Prop({ required: true })

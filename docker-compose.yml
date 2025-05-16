@@ -13,7 +13,24 @@ services:
       - JWT_SECRET=${JWT_SECRET}
       - PORT=${AUTH_PORT}
     networks:
-      - auth-network
+      - reward-network
+    depends_on:
+      - mongodb
+    restart: unless-stopped
+
+  event-service:
+    build:
+      context: .
+      dockerfile: Event.Dockerfile
+    container_name: event-service
+    ports:
+      - "3020:3020"
+    environment:
+      - MONGODB_URI=${MONGODB_URI}
+      - JWT_SECRET=${JWT_SECRET}
+      - PORT=${EVENT_PORT}
+    networks:
+      - reward-network
     depends_on:
       - mongodb
     restart: unless-stopped
@@ -27,11 +44,11 @@ services:
       - mongodb_data:/data/db
       - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
     networks:
-      - auth-network
+      - reward-network
     restart: unless-stopped
 
 networks:
-  auth-network:
+  reward-network:
     driver: bridge
 
 volumes:

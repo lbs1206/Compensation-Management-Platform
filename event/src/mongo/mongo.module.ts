@@ -1,11 +1,11 @@
 import {Global, Module} from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { User, UserSchema } from '../schemas/user.schema';
+import { Event, EventSchema } from '../schemas/event.schema';
 @Global()
 @Module({
     imports: [
         MongooseModule.forFeature([
-            { name: User.name, schema: UserSchema },
+            { name: Event.name, schema: EventSchema },
         ]),
     ],
     exports: [MongooseModule],

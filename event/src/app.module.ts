@@ -5,6 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import {DatabaseModule} from "./mongo/mongo.module";
 import { JwtModule } from '@nestjs/jwt';
+import {EventModule} from "./event/event.module";
 
 
 @Module({
@@ -32,7 +33,8 @@ import { JwtModule } from '@nestjs/jwt';
         };
       },
     }),
-    DatabaseModule,
+      EventModule,
+      DatabaseModule,
   ],
   controllers: [AppController],
   providers: [AppService],

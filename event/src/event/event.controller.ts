@@ -3,7 +3,7 @@ import {CreateEventDto, getEventDto, getEventListDto} from "./event.dto";
 import {EventService} from "./event.service";
 import {Event} from "../schemas/event.schema";
 
-@Controller('/event')
+@Controller()
 export class EventController {
     constructor(private readonly service: EventService) {}
 

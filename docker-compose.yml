@@ -1,6 +1,26 @@
 version: '3.8'
 
 services:
+  gateway:
+    build:
+      context: .
+      dockerfile: Gateway.Dockerfile
+    container_name: gateway
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGODB_URI=${MONGODB_URI}
+      - JWT_SECRET=${JWT_SECRET}
+      - PORT=${GATEWAY_PORT}
+      - AUTH_SERVICE_URL=${AUTH_SERVICE_URL}
+      - EVENT_SERVICE_URL=${EVENT_SERVICE_URL}
+    networks:
+      - reward-network
+    depends_on:
+      - mongodb
+    restart: unless-stopped
+
+
   auth-service:
     build:
       context: .

@@ -1,8 +1,6 @@
 import { Module } from '@nestjs/common';
 import {ConfigModule, ConfigService} from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose'
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import {DatabaseModule} from "./mongo/mongo.module";
 import { JwtModule } from '@nestjs/jwt';
 import {EventModule} from "./event/event.module";
@@ -36,7 +34,7 @@ import {EventModule} from "./event/event.module";
       EventModule,
       DatabaseModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}

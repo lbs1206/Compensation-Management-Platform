@@ -2,7 +2,7 @@
 GET http://localhost:3010
 
 ### GET request to example server
-GET http://localhost:3020
+GET http://localhost:3000
 
 ###
 GET http://localhost:3010/user

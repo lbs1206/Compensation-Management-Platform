@@ -1,0 +1,36 @@
+### 회원가입
+POST http://localhost:3000/api/auth/user/signUp
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "password": "Test1234!",
+  "role": "AUDITOR"
+}
+
+
+
+### 로그인
+POST http://localhost:3000/api/auth/user/signIn
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "password": "Test1234!"
+}
+
+###
+POST http://localhost:3000/api/event
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ODI4ODYzNDYwMmVkMzczY2Y4MWRhMmQiLCJrZXkiOiJNQVBMRTMwNkM5NjcxRDIwNjA1RDUiLCJyb2xlIjoiQVVESVRPUiIsImlhdCI6MTc0NzQ4ODQzNywiZXhwIjoxNzQ3NDkyMDM3fQ.8CJLrWZl-9SnOk3yolQ4ysLDUOTyD6VkF6rVvLIdkD4
+
+{
+  "name": "event-002",
+  "description": "로그인 3일",
+  "condition_type": "login",
+  "condition_value": {
+    "days" : 3
+  },
+  "start_date": "2025-01-01",
+  "end_date": "2025-10-01"
+}

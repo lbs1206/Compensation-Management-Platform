@@ -19,7 +19,7 @@ export class User extends Document {
         unique: true,
         default: generateUserKey
     })
-    userKey: string;
+    user_key: string;
 
 
     @Prop({ required: true, unique: true })
@@ -32,7 +32,7 @@ export class User extends Document {
     role: string;
 
     @Prop({type: Date, default: Date.now})
-    createdAt: Date;
+    created_at: Date;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

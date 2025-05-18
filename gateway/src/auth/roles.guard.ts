@@ -36,7 +36,34 @@ export class RolesGuard implements CanActivate {
         }
 
         return PRIVATE_ROUTES.some(
-            route => path.includes(route.path) && method === route.method && route.Role.includes(user.role)
+            route => pathCheck(path,route.path) && method === route.method && route.Role.includes(user.role)
         )
     }
+
+}
+
+const pathCheck = (path: string,routePath: string):boolean =>{
+    if(path.includes(routePath)){
+        return true;
+    }
+
+    const path_array : string[] = path.split('/');
+    const route_array : string[] = routePath.split('/');
+
+    if(path_array.length !== route_array.length){
+        return false;
+    }
+
+    let check:boolean = true;
+    for(let i =0; i < path_array.length; i ++){
+        if(route_array[i].includes(':') && path_array[i]){
+            continue;
+        }
+        if(route_array[i] !== path_array[i]){
+            check = false;
+            break;
+        }
+    }
+
+    return check;
 }

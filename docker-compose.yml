@@ -47,6 +47,7 @@ services:
       - "3020:3020"
     environment:
       - MONGODB_URI=${MONGODB_URI}
+      - AUTH_SERVICE_URL=${AUTH_SERVICE_URL}
       - JWT_SECRET=${JWT_SECRET}
       - PORT=${EVENT_PORT}
     networks:
@@ -60,12 +61,17 @@ services:
     container_name: mongodb
     ports:
       - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=nexon
+      - MONGO_INITDB_ROOT_PASSWORD=maple
+      - MONGO_INITDB_DATABASE=admin
     volumes:
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
       - mongodb_data:/data/db
-      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
     networks:
       - reward-network
-    restart: unless-stopped
+    restart: always
+
 
 networks:
   reward-network:

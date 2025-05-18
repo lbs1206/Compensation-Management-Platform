@@ -19,27 +19,18 @@ Content-Type: application/json
 }
 
 > {% client.global.set("access_token", response.body.access_token); %}
-###
+
+### 보상 요청
 POST http://localhost:3000/api/event/request/:event_id
 Content-Type: application/json
 Authorization: Bearer {{access_token}}
 
 {
-  "event_id" : "0196e1e5-5eec-742c-aa3d-463d19f9c19e"
+  "event_id" : "0196e395-7939-71f3-b801-f7665bf4cdb2"
 }
 
-###
-POST http://localhost:3000/api/event
+
+### 보상 지급 조회
+GET http://localhost:3000/api/event/request
 Content-Type: application/json
 Authorization: Bearer {{access_token}}
-
-{
-  "name": "event-003",
-  "description": "로그인 3일",
-  "condition_type": "login",
-  "condition_value": {
-    "days" : 3
-  },
-  "start_date": "2025-01-01",
-  "end_date": "2025-10-01"
-}

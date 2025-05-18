@@ -1,8 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document,Schema as MongooseSchema} from 'mongoose';
-import {Utils} from '../common/utils'
+import { v7  } from 'uuid';
 
-const utils = new Utils();
+
 
 @Schema({
     versionKey: false  // __v 필드 자체를 비활성화
@@ -11,7 +11,7 @@ export class Event extends Document {
     @Prop({
         required: true,
         unique: true,
-        default: utils.generateUUID()
+        default: v7
     })
     event_id: string;
 

@@ -1,15 +1,19 @@
 import { Module } from '@nestjs/common';
-import {ConfigModule, ConfigService} from '@nestjs/config';
-import { MongooseModule } from '@nestjs/mongoose'
-import {DatabaseModule} from "./mongo/mongo.module";
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { MongooseModule } from '@nestjs/mongoose';
+import { DatabaseModule } from './mongo/mongo.module';
 import { JwtModule } from '@nestjs/jwt';
-import {EventModule} from "./event/event.module";
-
+import { EventModule } from './event/event.module';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+    }),
+    HttpModule.register({
+      timeout: 5000,
+      maxRedirects: 5,
     }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
@@ -31,8 +35,8 @@ import {EventModule} from "./event/event.module";
         };
       },
     }),
-      EventModule,
-      DatabaseModule,
+    EventModule,
+    DatabaseModule,
   ],
   controllers: [],
   providers: [],

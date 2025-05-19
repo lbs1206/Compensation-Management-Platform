@@ -10,7 +10,7 @@
 ### 설치 및 실행
 1. 저장소 복제
 ``` bash
-git clone https://github.com/your-username/compensation-management-platform.git
+git clone https://github.com/lbs1206/Compensation-Management-Platform.git
 cd compensation-management-platform
 ```
 1. Docker로 서비스 실행

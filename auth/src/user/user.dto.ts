@@ -5,8 +5,9 @@ import {
   Matches,
   IsIn,
   IsDate,
+  IsOptional,
 } from 'class-validator';
-import { Transform } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 
 //region [[ Request ]]
 export class CreateUserDto {
@@ -62,6 +63,20 @@ export class GetLoginHistDto {
   @Transform(({ value }) => new Date(value))
   @IsDate()
   end_date: Date;
+}
+
+export class getUsersDto {
+  @IsOptional()
+  @IsIn(['USER', 'OPERATOR', 'AUDITOR', 'ADMIN'])
+  role: string;
+}
+
+export class putUserRoleDto {
+  @IsString()
+  user_key: string;
+
+  @IsIn(['USER', 'OPERATOR', 'AUDITOR', 'ADMIN'])
+  role: string;
 }
 
 //endregion

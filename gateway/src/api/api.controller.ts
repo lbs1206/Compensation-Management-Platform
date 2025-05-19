@@ -4,7 +4,6 @@ import {
   All,
   Req,
   Res,
-  Param,
   HttpStatus,
   UseGuards,
 } from '@nestjs/common';
@@ -26,16 +25,6 @@ export class ApiController {
       // JWT 페이로드 가져오기 - request.user에 이미 저장되어 있음
       const user = req.user as JwtPayload;
 
-      // 헤더에 사용자 정보 추가
-      const customHeaders = { ...req.headers };
-
-      // 페이로드 값을 헤더에 추가
-      if (user) {
-        customHeaders['x-user-id'] = user.user_id;
-        customHeaders['x-user-role'] = user.role;
-        customHeaders['x-user-key'] = user.user_key;
-      }
-
       // 'api/auth/' 이후의 경로 추출
       const path = req.url.replace(/^\/api\/auth\/?/, '');
 
@@ -43,8 +32,9 @@ export class ApiController {
         req.method,
         path,
         req.body,
-        customHeaders,
+        req.headers,
         req.query,
+        user,
       );
 
       res.status(HttpStatus.OK).json(result);

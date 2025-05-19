@@ -1,9 +1,10 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Put, Query } from '@nestjs/common';
 import { UserService } from './user.service';
 import {
   CreateAdminUserDto,
   CreateUserDto,
   GetLoginHistDto,
+  getUsersDto,
   SignInDto,
 } from './user.dto';
 import { User } from '../schemas/user.schema';
@@ -30,6 +31,16 @@ export class UserController {
   @Post('/admin/signUp')
   adminSignUp(@Body() dto: CreateAdminUserDto): Promise<User> {
     return this.service.createAdmin(dto);
+  }
+
+  @Get('/list')
+  getAdminUser(@Query() dto: getUsersDto): Promise<any> {
+    return this.service.findUsers(dto);
+  }
+
+  @Put('/role')
+  updateRole(@Body() dto: any) {
+    return this.service.updateRole(dto);
   }
 
   @Get('/hist')

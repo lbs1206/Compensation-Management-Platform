@@ -60,3 +60,20 @@ Authorization: Bearer {{access_token}}
 
 
 
+### 유저 조회
+GET {{host}}/api/auth/user/list
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+> {% client.global.set("user_key", response.body.data[0].user_key); %}
+
+### 유저 역할 변경
+PUT GET {{host}}/api/auth/user/role
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+{
+  "role" : "AUDITOR",
+  "user_key" : "{{user_key}}"
+}
+

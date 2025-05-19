@@ -1,8 +1,4 @@
-import {
-  Injectable,
-  NotFoundException,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Event } from '../schemas/event.schema';
 import { Model } from 'mongoose';
@@ -11,7 +7,6 @@ import {
   getEventListDto,
   getEventRequestPagingDto,
   getEventRewardDto,
-  getPagingDto,
   postEventRewardDto,
   PutEventDto,
 } from './event.dto';
@@ -48,7 +43,7 @@ export class EventService {
   }
 
   async findAll(dto: getEventListDto) {
-    const { page, limit, sort } = new getEventListDto();
+    const { page, limit, sort } = dto;
 
     const skip = (page - 1) * limit;
 
@@ -85,7 +80,7 @@ export class EventService {
         status: 'SUCCESS',
       })
       .exec();
-    return count > 0 ? true : false;
+    return count > 0;
   }
 
   findOne(event_id: string): Promise<Event | null> {
@@ -187,6 +182,9 @@ export class EventService {
     if (role == 'USER') {
       filter.user_key = user_key;
     }
+    console.log(role);
+    console.log(user_key);
+    console.log(JSON.stringify(filter));
     const [events, total] = await Promise.all([
       this.requestModel
         .find(filter)

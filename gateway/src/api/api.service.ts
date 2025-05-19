@@ -19,12 +19,13 @@ export class ApiService {
     body?: any,
     headers?: any,
     query?: any,
+    user?: any,
   ): Promise<any> {
     const auth_service_url =
       this.configService.get<string>('AUTH_SERVICE_URL') ||
       'http://localhost:3010';
     const url = `${auth_service_url}/${path}`;
-    return this.forwardRequest(method, url, body, headers, query);
+    return this.forwardRequest(method, url, body, headers, query, user);
   }
 
   // Event 서비스로 요청 전달

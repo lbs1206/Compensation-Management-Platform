@@ -1,4 +1,5 @@
-version: '3.8'
+
+name: Compensation-Management-Platform
 
 services:
   gateway:
@@ -6,6 +7,7 @@ services:
       context: .
       dockerfile: Gateway.Dockerfile
     container_name: gateway
+    image: gateway:latest
     ports:
       - "3000:3000"
     environment:
@@ -26,6 +28,7 @@ services:
       context: .
       dockerfile: Auth.Dockerfile
     container_name: auth-service
+    image: auth-service:latest
     ports:
       - "3010:3010"
     environment:
@@ -43,6 +46,7 @@ services:
       context: .
       dockerfile: Event.Dockerfile
     container_name: event-service
+    image: event-service:latest
     ports:
       - "3020:3020"
     environment:

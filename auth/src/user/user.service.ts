@@ -6,10 +6,11 @@ import {
   CreateAdminUserDto,
   CreateUserDto,
   GetLoginHistDto,
+  getUsersDto,
+  putUserRoleDto,
   SignInDto,
 } from './user.dto';
 import { JwtService } from '@nestjs/jwt';
-import * as bcrypt from 'bcrypt';
 import { Utils } from '../common/utils';
 import { LoginHist } from '../schemas/login-hist.schema';
 
@@ -38,6 +39,20 @@ export class UserService {
     dto.password = await this.utils.hash(dto.password);
     const createdUser = new this.userModel(dto);
     return createdUser.save();
+  }
+
+  async findUsers(dto: getUsersDto) {
+    const filter: any = {};
+    if (dto.role) {
+      filter.role = dto.role;
+    }
+    return await this.userModel.find(filter).exec();
+  }
+
+  async updateRole(dto: putUserRoleDto) {
+    return await this.userModel
+      .updateOne({ user_key: dto.user_key }, { role: dto.role })
+      .exec();
   }
 
   async signIn(dto: SignInDto) {

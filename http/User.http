@@ -3,7 +3,7 @@ POST http://localhost:3000/api/auth/user/signUp
 Content-Type: application/json
 
 {
-  "username": "testuser",
+  "username": "user",
   "password": "Test1234!"
 }
 
@@ -14,7 +14,7 @@ POST http://localhost:3000/api/auth/user/signIn
 Content-Type: application/json
 
 {
-  "username": "testuser",
+  "username": "user",
   "password": "Test1234!"
 }
 
@@ -30,7 +30,7 @@ Authorization: Bearer {{access_token}}
 }
 
 
-### 보상 지급 조회
+### 보상 요청 조회
 GET http://localhost:3000/api/event/request
 Content-Type: application/json
 Authorization: Bearer {{access_token}}

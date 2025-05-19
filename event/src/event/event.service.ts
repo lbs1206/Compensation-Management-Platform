@@ -16,6 +16,8 @@ import { EventRequest } from '../schemas/event-request.schema';
 import { Currency } from '../schemas/currency.schema';
 import { CurrencyWallet } from '../schemas/currency-wallet.schema';
 import { RewardReceive } from '../schemas/reward-receive.schema';
+import { Item } from '../schemas/item.schema';
+import { UserItem } from '../schemas/user-item.schema';
 
 @Injectable()
 export class EventService {
@@ -28,6 +30,8 @@ export class EventService {
     @InjectModel(Currency.name) private currencyModel: Model<Currency>,
     @InjectModel(CurrencyWallet.name)
     private currencyWalletModel: Model<CurrencyWallet>,
+    @InjectModel(Item.name) private itemModel: Model<Item>,
+    @InjectModel(UserItem.name) private userItemModel: Model<UserItem>,
     private auth_api_service: AuthApiService,
   ) {}
 
@@ -80,6 +84,9 @@ export class EventService {
         status: 'SUCCESS',
       })
       .exec();
+    console.log(user_key);
+    console.log(event_id);
+    console.log(count);
     return count > 0;
   }
 
@@ -117,30 +124,70 @@ export class EventService {
 
     for (const reward of rewards) {
       if (reward.reward_type == 'CURRENCY') {
-        const currency: Currency = await this.currencyModel
-          .findOne({ currency_id: reward.reward_ref_id })
-          .exec();
-
-        //재화 보상 지급
-        await this.receiveCurrency(
-          currency.currency_id,
-          currency.currency_symbol,
-          reward.quantity,
-          user_key,
-        );
-        //보상 지급 이력 저장
-        const rewardReceive: any = {
-          reward_id: reward.reward_id,
-          event_request_id: event_request_id,
-          status: 'SUCCESS',
-        };
-        await new this.rewardReceiveModel(rewardReceive).save();
+        await this.rewardCurrency(reward, user_key, event_request_id);
+      } else if (reward.reward_type == 'ITEM') {
+        await this.rewardItem(reward, user_key, event_request_id);
       }
     }
 
     return true;
   }
 
+  async eventCouponReward(
+    event: Event,
+    user_key: string,
+    event_request_id: string,
+    coupon_code: string,
+  ) {
+    const check = event.condition_value.coupon_code == coupon_code;
+
+    if (!check) {
+      return false;
+    }
+    //보상 지급
+    await this.reward(event, user_key, event_request_id);
+
+    return true;
+  }
+
+  async reward(event: Event, user_key: string, event_request_id: string) {
+    const rewards: Reward[] = await this.rewardModel
+      .find({ event_id: event.event_id })
+      .exec();
+
+    for (const reward of rewards) {
+      if (reward.reward_type == 'CURRENCY') {
+        await this.rewardCurrency(reward, user_key, event_request_id);
+      } else if (reward.reward_type == 'ITEM') {
+        await this.rewardItem(reward, user_key, event_request_id);
+      }
+    }
+  }
+
+  async rewardCurrency(
+    reward: Reward,
+    user_key: string,
+    event_request_id: string,
+  ) {
+    const currency: Currency = await this.currencyModel
+      .findOne({ currency_id: reward.reward_ref_id })
+      .exec();
+
+    //재화 보상 지급
+    await this.receiveCurrency(
+      currency.currency_id,
+      currency.currency_symbol,
+      reward.quantity,
+      user_key,
+    );
+    //보상 지급 이력 저장
+    const rewardReceive: any = {
+      reward_id: reward.reward_id,
+      event_request_id: event_request_id,
+      status: 'SUCCESS',
+    };
+    await new this.rewardReceiveModel(rewardReceive).save();
+  }
   async receiveCurrency(
     currency_id: string,
     currency_symbol: string,
@@ -163,6 +210,26 @@ export class EventService {
       };
       await new this.currencyWalletModel(data).save();
     }
+  }
+
+  async rewardItem(reward: Reward, user_key: string, event_request_id: string) {
+    const item: Item = await this.itemModel
+      .findOne({ item_id: reward.reward_ref_id })
+      .exec();
+    const user_item: any = {
+      user_key: user_key,
+      item_id: item.item_id,
+      quantity: reward.quantity,
+    };
+    await new this.userItemModel(user_item).save();
+
+    //보상 지급 이력 저장
+    const rewardReceive: any = {
+      reward_id: reward.reward_id,
+      event_request_id: event_request_id,
+      status: 'SUCCESS',
+    };
+    await new this.rewardReceiveModel(rewardReceive).save();
   }
 
   createReward(dto: postEventRewardDto) {

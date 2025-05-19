@@ -1,7 +1,5 @@
 # Compensation-Management-Platform
 
-### 프로젝트 실행 방법
-## 시작하기
 ### 요구사항
 - Node.js 18.x 이상
 - Docker & Docker Compose
@@ -70,16 +68,35 @@ compensation-management-platform/
 erDiagram
     users ||--o{ login_hists : "로그인 기록"
     users ||--o{ currency_wallet : "보유"
+    users ||--o{ user_items : "보유"
     users ||--o{ event_request : "요청"
-    users ||--o{ reward_receives : "보상 수령"
 
     currencies ||--o{ currency_wallet : "유저 지갑"
+    items ||--o{ user_items: "유저 보유 아이템"
 
     events ||--o{ rewards : "제공"
     events ||--o{ event_request : "요청 기록"
 
-    rewards ||--o{ reward_receives : "지급"
-
+    rewards ||--o{ reward_receives : "지급 기록"
+    
+    items {
+        objectid _id
+        isodate created_at
+        string item_id
+        string item_type
+        string item_name
+        string description
+        int32 max_quantity
+        boolean trade_able
+    }
+    user_items {
+        objectid _id
+        isodate created_at
+        string user_item_id
+        string user_key
+        string item_id
+        int32 quantity
+    }
     currencies {
        objectid _id
        isodate created_at
@@ -152,16 +169,18 @@ erDiagram
 
 ## 데이터베이스 모델
 
-| 모델명 | 설명 |
-|-------|------|
-| users | 회원 정보 관리 |
-| login_hist | 사용자 로그인 이력 관리 |
-| event | 이벤트 생성 및 관리 |
-| reward | 이벤트 보상 정보 관리 |
-| event_request | 이벤트 보상 요청 내역 |
-| reward_receive | 이벤트 보상 지급 내역 |
-| currency | 재화 종류 정의 및 관리 |
-| currency_wallet | 사용자별 재화 보유 현황 |
+| 모델명             | 설명             |
+|-----------------|----------------|
+| users           | 회원 정보 관리       |
+| login_hist      | 사용자 로그인 이력 관리  |
+| event           | 이벤트 생성 및 관리    |
+| reward          | 이벤트 보상 정보 관리   |
+| event_request   | 이벤트 보상 요청 내역   |
+| reward_receive  | 이벤트 보상 지급 내역   |
+| currency        | 재화 종류 정의 및 관리  |
+| currency_wallet | 사용자별 재화 보유 현황  |
+| items           | 아이템 종류 정의 및 관리 |
+| user_items      | 사용자별 아이템 보유 현황 |
 
 
 

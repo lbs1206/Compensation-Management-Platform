@@ -67,7 +67,7 @@ export class GetLoginHistDto {
 
 export class getUsersDto {
   @IsOptional()
-  @IsIn(['USER', 'OPERATOR', 'AUDITOR', 'ADMIN'])
+  @IsString()
   role: string;
 }
 

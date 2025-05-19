@@ -46,7 +46,9 @@ export class UserService {
     if (dto.role) {
       filter.role = dto.role;
     }
-    return await this.userModel.find(filter).exec();
+    console.log(dto.role);
+    console.log(JSON.stringify(filter));
+    return await this.userModel.find(filter).sort('-created_at').exec();
   }
 
   async updateRole(dto: putUserRoleDto) {

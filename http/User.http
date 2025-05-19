@@ -3,7 +3,7 @@ POST http://localhost:3000/api/auth/user/signUp
 Content-Type: application/json
 
 {
-  "username": "user",
+  "username": "user1",
   "password": "Test1234!"
 }
 
@@ -14,19 +14,29 @@ POST http://localhost:3000/api/auth/user/signIn
 Content-Type: application/json
 
 {
-  "username": "user",
+  "username": "user1",
   "password": "Test1234!"
 }
 
 > {% client.global.set("access_token", response.body.access_token); %}
 
-### 보상 요청
+### 보상 요청(로그인 3일)(테스트를 위해 로그인 3번으로 임시 로직 변경)
 POST http://localhost:3000/api/event/request/:event_id
 Content-Type: application/json
 Authorization: Bearer {{access_token}}
 
 {
   "event_id" : "0196e395-7939-71f3-b801-f7665bf4cdb2"
+}
+
+### 보상 요청(쿠폰)
+POST http://localhost:3000/api/event/request/:event_id
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+{
+  "event_id" : "0196e888-c1a2-750c-adb8-94f8eb5cdace",
+  "coupon_code" : "MAPLE123"
 }
 
 

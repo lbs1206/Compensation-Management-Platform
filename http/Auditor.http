@@ -1,0 +1,35 @@
+### 환경 변수 설정
+@host = http://localhost:3000
+### 로그인
+POST http://localhost:3000/api/auth/user/signIn
+Content-Type: application/json
+
+{
+  "username": "auditoruser",
+  "password": "Auditor1234!"
+}
+
+> {% client.global.set("access_token", response.body.access_token); %}
+
+
+### 이벤트 생성(403 Error 권한 부족)
+POST http://localhost:3000/api/event
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+{
+  "name": "event-003",
+  "description": "로그인 3일",
+  "condition_type": "login",
+  "condition_value": {
+    "days" : 3
+  },
+  "start_date": "2025-01-01",
+  "end_date": "2025-10-01"
+}
+
+
+### 보상 요청 조회
+GET http://localhost:3000/api/event/request
+Content-Type: application/json
+Authorization: Bearer {{access_token}}

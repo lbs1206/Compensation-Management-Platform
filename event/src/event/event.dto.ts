@@ -88,6 +88,10 @@ export class getEventRewardDto {
 export class postEventRewardReceiveDto {
   @IsUUID()
   event_id: string;
+
+  @IsOptional()
+  @IsString()
+  coupon_code?: string;
 }
 
 export class getEventRewardReceiveDto {

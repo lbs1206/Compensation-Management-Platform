@@ -44,12 +44,12 @@ export class EventController {
   }
 
   @Get()
-  async getEventList(@Query() dto: getEventListDto) {
+  async getEventList(@Param() dto: getEventListDto) {
     return await this.service.findAll(dto);
   }
 
   @Get('/detail/:event_id')
-  getEvent(@Query() dto: getEventDto) {
+  getEvent(@Param() dto: getEventDto) {
     return this.service.findOne(dto.event_id);
   }
 
@@ -64,7 +64,7 @@ export class EventController {
   }
 
   @Get('/reward/:event_id')
-  getEventReward(@Query() dto: getEventRewardDto) {
+  getEventReward(@Param() dto: getEventRewardDto) {
     return this.service.findRewardAll(dto);
   }
 
@@ -93,6 +93,7 @@ export class EventController {
 
     console.log(user_key);
     console.log(dto.event_id);
+    //이벤트 보상은 한번만
     const user_request = await this.service.chkRequest(user_key, dto.event_id);
     if (user_request) {
       return new BadRequestException();
@@ -105,6 +106,13 @@ export class EventController {
         event,
         headers['x-user-key'],
         request.event_request_id,
+      );
+    } else if (event.condition_type == 'coupon') {
+      reward = await this.service.eventCouponReward(
+        event,
+        headers['x-user-key'],
+        request.event_request_id,
+        dto.coupon_code,
       );
     }
 

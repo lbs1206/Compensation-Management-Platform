@@ -86,17 +86,39 @@ db.rewards.insertOne({
     "reward_type": "CURRENCY"
 })
 
+db.rewards.insertOne({
+    "created_at": new Date(),
+    "event_id": "0196e395-7939-71f3-b801-f7665bf4cdb2",
+    "quantity": 1,
+    "reward_id": "0196e86d-cb65-7de5-9223-baececa58869",
+    "reward_ref_id": "1",
+    "reward_type": "ITEM"
+})
+
 
 //재화 삽입
 db.createCollection('currencies');
 db.currencies.insertOne(
     {
-        currency_id: "1",
-        currency_symbol: "meso",
-        description: "maple default currency",
-        created_at: new Date(),
+        "currency_id": "1",
+        "currency_symbol": "meso",
+        "description": "maple default currency",
+        "created_at": new Date(),
     }
 )
+
+//item 삽입
+db.createCollection('items');
+db.items.insertOne(
+    {
+        "item_id": "1",
+        "item_name": "light blue umbrella",
+        "description": "one handed sword",
+        "item_type": "WEAPON",
+        "max_quantity": 10,
+        "trade_able": true,
+        "created_at": new Date(),
+    })
 
 print("#############MongoDB 초기화 스크립트 완료#####################");
 

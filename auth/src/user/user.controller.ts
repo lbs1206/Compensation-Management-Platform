@@ -1,10 +1,11 @@
-import { Body, Controller, Get, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { UserService } from './user.service';
 import {
   CreateAdminUserDto,
   CreateUserDto,
   GetLoginHistDto,
   getUsersDto,
+  putUserRoleDto,
   SignInDto,
 } from './user.dto';
 import { User } from '../schemas/user.schema';
@@ -39,7 +40,7 @@ export class UserController {
   }
 
   @Put('/role')
-  updateRole(@Body() dto: any) {
+  updateRole(@Body() dto: putUserRoleDto) {
     return this.service.updateRole(dto);
   }
 

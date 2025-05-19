@@ -5,13 +5,13 @@ POST http://localhost:3000/api/auth/user/signIn
 Content-Type: application/json
 
 {
-  "username": "adminuser",
-  "password": "Admin1234!"
+  "username": "operatoruser",
+  "password": "Operator1234!"
 }
 
 > {% client.global.set("access_token", response.body.access_token); %}
 
-### 관리자 생성
+### 관리자 생성(403 Error 권한이 없음)
 POST http://localhost:3000/api/auth/user/admin/signUp
 Content-Type: application/json
 Authorization: Bearer {{access_token}}
@@ -20,24 +20,6 @@ Authorization: Bearer {{access_token}}
   "username": "operator",
   "password": "Opera1234!",
   "role" : "OPERATOR"
-}
-
-
-### 유저 조회
-GET {{host}}/api/auth/user/list?role=USER
-Content-Type: application/json
-Authorization: Bearer {{access_token}}
-
-> {% client.global.set("user_key", response.body[0].user_key); %}
-
-### 유저 역할 변경
-PUT {{host}}/api/auth/user/role
-Content-Type: application/json
-Authorization: Bearer {{access_token}}
-
-{
-  "role" : "AUDITOR",
-  "user_key" : "{{user_key}}"
 }
 
 ### 이벤트 생성(로그인3일)

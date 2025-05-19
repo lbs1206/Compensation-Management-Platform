@@ -15,6 +15,8 @@ import {
   CurrencyWallet,
   CurrencyWalletSchema,
 } from '../schemas/currency-wallet.schema';
+import { Item, ItemSchema } from '../schemas/item.schema';
+import { UserItem, UserItemSchema } from '../schemas/user-item.schema';
 @Global()
 @Module({
   imports: [
@@ -25,6 +27,8 @@ import {
       { name: RewardReceive.name, schema: RewardReceiveSchema },
       { name: Currency.name, schema: CurrencySchema },
       { name: CurrencyWallet.name, schema: CurrencyWalletSchema },
+      { name: Item.name, schema: ItemSchema },
+      { name: UserItem.name, schema: UserItemSchema },
     ]),
   ],
   exports: [MongooseModule],

@@ -51,6 +51,7 @@ export class ApiService {
     body?: any,
     headers?: any,
     query?: any,
+    params?: any,
     user?: any,
   ): Promise<any> {
     try {
@@ -61,10 +62,15 @@ export class ApiService {
           'x-user-role': user ? user.role : '',
           'x-user-key': user ? user.user_key : '',
         },
-        params: query,
       };
-
-      console.log(JSON.stringify(config.headers));
+      // 전체 URL과 파라미터 로그
+      console.log(
+        'Full request URL:',
+        this.httpService.axiosRef.getUri({
+          url,
+          params: query,
+        }),
+      );
 
       let request: Observable<AxiosResponse<any>>;
 

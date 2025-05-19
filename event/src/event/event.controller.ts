@@ -44,12 +44,12 @@ export class EventController {
   }
 
   @Get()
-  async getEventList(@Param() dto: getEventListDto) {
+  async getEventList(@Query() dto: getEventListDto) {
     return await this.service.findAll(dto);
   }
 
   @Get('/detail/:event_id')
-  getEvent(@Param() dto: getEventDto) {
+  getEvent(@Query() dto: getEventDto) {
     return this.service.findOne(dto.event_id);
   }
 
@@ -64,7 +64,7 @@ export class EventController {
   }
 
   @Get('/reward/:event_id')
-  getEventReward(@Param() dto: getEventRewardDto) {
+  getEventReward(@Query() dto: getEventRewardDto) {
     return this.service.findRewardAll(dto);
   }
 

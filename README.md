@@ -13,11 +13,11 @@
 git clone https://github.com/lbs1206/Compensation-Management-Platform.git
 cd compensation-management-platform
 ```
-1. Docker로 서비스 실행
+2. Docker로 서비스 실행
 ``` bash
 docker-compose up -d
 ```
-1. 각 서비스 개별 실행 (개발 시)
+3. 각 서비스 개별 실행 (개발 시)
 ``` bash
 # 인증 서비스
 cd auth
